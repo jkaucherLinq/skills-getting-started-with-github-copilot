@@ -25,19 +25,55 @@ activities = {
         "description": "Learn strategies and compete in chess tournaments",
         "schedule": "Fridays, 3:30 PM - 5:00 PM",
         "max_participants": 12,
-        "participants": ["michael@mergington.edu", "daniel@mergington.edu"]
+        "participants": [email.lower() for email in ["michael@mergington.edu", "daniel@mergington.edu"]]
     },
     "Programming Class": {
         "description": "Learn programming fundamentals and build software projects",
         "schedule": "Tuesdays and Thursdays, 3:30 PM - 4:30 PM",
         "max_participants": 20,
-        "participants": ["emma@mergington.edu", "sophia@mergington.edu"]
+        "participants": [email.lower() for email in ["emma@mergington.edu", "sophia@mergington.edu"]]
     },
     "Gym Class": {
         "description": "Physical education and sports activities",
         "schedule": "Mondays, Wednesdays, Fridays, 2:00 PM - 3:00 PM",
         "max_participants": 30,
-        "participants": ["john@mergington.edu", "olivia@mergington.edu"]
+        "participants": [email.lower() for email in ["john@mergington.edu", "olivia@mergington.edu"]]
+    },
+    "Soccer Team": {
+        "description": "Join the school soccer team and compete in matches",
+        "schedule": "Tuesdays and Thursdays, 4:00 PM - 5:30 PM",
+        "max_participants": 22,
+        "participants": [email.lower() for email in ["liam@mergington.edu", "noah@mergington.edu"]]
+    },
+    "Basketball Team": {
+        "description": "Practice basketball skills and participate in tournaments",
+        "schedule": "Wednesdays and Fridays, 3:30 PM - 5:00 PM",
+        "max_participants": 15,
+        "participants": [email.lower() for email in ["ava@mergington.edu", "mia@mergington.edu"]]
+    },
+    "Art Club": {
+        "description": "Explore various art techniques and create your own masterpieces",
+        "schedule": "Mondays, 3:30 PM - 5:00 PM",
+        "max_participants": 15,
+        "participants": [email.lower() for email in ["isabella@mergington.edu", "amelia@mergington.edu"]]
+    },
+    "Drama Club": {
+        "description": "Learn acting skills and participate in school plays",
+        "schedule": "Thursdays, 4:00 PM - 5:30 PM",
+        "max_participants": 20,
+        "participants": [email.lower() for email in ["elijah@mergington.edu", "lucas@mergington.edu"]]
+    },
+    "Math Club": {
+        "description": "Solve challenging math problems and prepare for math competitions",
+        "schedule": "Wednesdays, 3:30 PM - 4:30 PM",
+        "max_participants": 10,
+        "participants": [email.lower() for email in ["charlotte@mergington.edu", "harper@mergington.edu"]]
+    },
+    "Science Club": {
+        "description": "Conduct experiments and explore scientific concepts",
+        "schedule": "Fridays, 4:00 PM - 5:00 PM",
+        "max_participants": 12,
+        "participants": [email.lower() for email in ["henry@mergington.edu", "jack@mergington.edu"]]
     }
 }
 
@@ -63,5 +99,9 @@ def signup_for_activity(activity_name: str, email: str):
     activity = activities[activity_name]
 
     # Add student
-    activity["participants"].append(email)
+    # Validate student is not already signed up
+    normalized_email = email.lower()
+    if normalized_email in activity["participants"]:
+        raise HTTPException(status_code=400, detail="Already signed up for this activity")
+    activity["participants"].append(normalized_email)
     return {"message": f"Signed up {email} for {activity_name}"}
